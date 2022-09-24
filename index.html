@@ -5,6 +5,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <iframe src="silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
 </head> 
 
 <body>
@@ -14,7 +15,6 @@
         <center>
             <p class="fnt" id="demo"></p>
             <p class="fnt" id="robolenie">(robolenie 🎂 in progress)</p>
-            
         </center>
 
         
@@ -52,6 +52,16 @@
         background-color: black;
     }
 
+    #robol {
+    position: absolute;
+    text-align: center;
+    }
+
+    .maxiking {
+    position: absolute;
+    text-align: center;
+    }
+
     body {
         background: linear-gradient(-45deg, #d768d2, #b43ce7, #00bbff, #23d5ab);
         background-size: 400% 400%;
@@ -79,7 +89,7 @@
 
     var countDownDate = new Date("September 25, 2022 00:00:00").getTime();
     var now = new Date().getTime();
-
+    var counter = 0
     var x = setInterval(function() {
 
 // Get today's date and time
@@ -98,15 +108,17 @@
     document.getElementById("demo").innerHTML = days + "d " + hours + "h "
     + minutes + "m " + seconds + "s ";
 
+    gameStarted = false
+
     // If the count down is finished, write some text
     if (distance < 0 ) {
     clearInterval(x);
     $("#robolenie").remove()
-
+    var dtval = 6.0
     /* Confetti by Patrik Svensson (http://metervara.net) */
     $(document).ready(function() {
     var frameRate = 60;
-    var dt = 6.0 / frameRate;
+    var dt = dtval / frameRate;
     var DEG_TO_RAD = Math.PI / 180;
     var RAD_TO_DEG = 180 / Math.PI;
     var colors = [
@@ -458,12 +470,56 @@
     $("#demo").after("<center><p id='lol'>(najslodsa i najpiekniejsza piziu, spełnienia wszyskiego. plynnego francais i mialnego life )</center></p>")
     $('#lol').css('font-size', "4vh");
     $('#lol').css('color', "white");
-    $("#lol").after('<iframe width="100%" height="100" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/942868204&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/moond4wg" title="" target="_blank" style="color: #cccccc; text-decoration: none;"></a> · <a href="https://soundcloud.com/moond4wg/caramelldansen-moond4wg-frenchcore-bootleg" title="" target="_blank" style="color: #cccccc; text-decoration: none;">CARAMELLDANSEN | MOOND4WG FRENCHCORE BOOTLEG</a></div>')
+    $("#lol").after('<iframe class="cizia" width="100%" height="100" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/942868204&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/moond4wg" title="" target="_blank" style="color: #cccccc; text-decoration: none;"></a> · <a href="https://soundcloud.com/moond4wg/caramelldansen-moond4wg-frenchcore-bootleg" title="" target="_blank" style="color: #cccccc; text-decoration: none;" id="sex">CARAMELLDANSEN | MOOND4WG FRENCHCORE BOOTLEG</a></div>')
     $('#lol').after("<p class='fnt' style='font-size: 2vh;'>(jebany autoplay nie dzialal na chromie a pewnie z tg korzystasz)</p>")
-    //game code
+    $('#sex').after('<button style="color: red; background-color:#ffffff42; height:8vh" onClick="game()">start the maxi king game</button>')
+
+    
 
     }
     }, 1000);
+
+    function game(){
+    $("#demo").remove()
+    $("#lol").remove()
+    $(".fnt").remove()
+    $("button").remove()
+    $("body").css('animation" "gradient" "2s" "ease" "infinite;"')
+    dtval = 8.0
+    $(".cizia").css("width", 0)
+    $(".cizia").css("height", 0)
+    $(".cizia").after('<div id="robol"><img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/bug_1f41b.png"/></div>')
+    $(".cizia").after('<img class="maxiking" src="https://i.iplsc.com/000AAZP110WLBPM3-C0.jpeg"/>')
+    $(".cizia").after('<h1 id="pipi" style="color: white">Zjedzone maxi king: 0</h1>')
+    $(".maxiking").css({
+        left: Math.floor(Math.random() * 600) + 1,
+        top: Math.floor(Math.random() * 600) + 1,
+        width: 100,
+        height: 100
+    });
+    gameStarted = true
+    
+
+
+}
+
+    
+    $(document).on('mousemove', function(e){
+        $("#robol").css({
+            left: e.pageX,
+            top: e.pageY
+        });
+
+    if ($('.maxiking:hover').length != 0) {
+        $(".maxiking").css({
+        left: Math.floor(Math.random() * 800) + 100,
+        top: Math.floor(Math.random() * 800) + 100
+        });
+        counter +=1
+        $("#pipi").text("Zjedzone maxi king: " + counter)
+}
+
+})
 
 
 
