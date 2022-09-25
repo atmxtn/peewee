@@ -90,6 +90,15 @@
     var countDownDate = new Date("September 25, 2022 00:00:00").getTime();
     var now = new Date().getTime();
     var counter = 0
+    var isOnionKing = false
+    var canKillU = false
+    var kingx = Math.floor(Math.random() * 800) + 100
+    var kingy = Math.floor(Math.random() * 600)
+    var nking_x = kingx
+    var nking_y = kingy
+    var glud = 5
+    var difficulty = 2
+    var dcnter = 0
     var x = setInterval(function() {
 
 // Get today's date and time
@@ -103,6 +112,8 @@
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    
 
     // Display the result in the element with id="demo"
     document.getElementById("demo").innerHTML = days + "d " + hours + "h "
@@ -479,6 +490,48 @@
     }
     }, 1000);
 
+    setInterval(function () {
+        if(gameStarted){
+        dcnter += 1
+        glud-=1
+        if(glud >= 5){
+            $("#glud").text("(Robol jest pojedzony!) 🟢🟢🟢🟢🟢")
+        }
+        if(glud == 4){
+            $("#glud").text("(Robol jest pojedzony) 🟢🟢🟢🟢")
+        }
+        if(glud == 3){
+            $("#glud").text("(Robol głodnieje!) 🟡🟡🟡")
+        }
+        if(glud == 2){
+            $("#glud").text("(Robol chce kinga) 🟡🟡")
+        }
+        if(glud == 1){
+            $("#glud").text("(Robol jest bardzo głodny!!!) 🟠")
+        }
+        if(glud == -1){
+            $('#robol').remove()
+            gameStarted = false
+            $("#pipcia").text("O nie! Piziu, robol mega zgłodniał i go zmiotło z planszy!")
+            $("#pipcia").css("padding-top", "18vh")
+            $("#pipcia").css("color", "red")
+            $("#pipcia").css("font-size", "6vw")
+            $(".maxiking").remove()
+            $("#glud").remove()
+        }
+        
+        if(dcntr >= 2000){
+            difficulty +=1
+            if (difficulty > 4){
+                difficulty = 4
+            }
+        }
+        $("#pipcia").css("color","#66ffff30")
+    }
+
+    
+    }, 1000);
+
     function game(){
     $("#demo").remove()
     $("#lol").remove()
@@ -490,9 +543,16 @@
     $(".cizia").css("height", 0)
     $(".cizia").after('<div id="robol"><img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/bug_1f41b.png"/></div>')
     $(".cizia").after('<img class="maxiking" src="https://i.iplsc.com/000AAZP110WLBPM3-C0.jpeg"/>')
-    $(".cizia").after('<h1 id="pipi" style="color: white">Zjedzone maxi king: 0</h1>')
+    $(".cizia").after('<h1 id="pipcia" style="color: #66ffff70; padding-top: 8px">(uważaj na onion kinga bo cb zmiecie z planszy!!!)</h1>')
+    $("#pipcia").after('<h1 id="pipi" style="color: white; padding-top: 10px">Zjedzone maxi king: 0</h1>')
+    $("#pipi").after('<p id="glud"></p>')
+    $("#glud").css("font-size", "3vw")
+    $("#glud").css("color", "white")
+    $("#glud").text(glud)
+    
+
     $(".maxiking").css({
-        left: Math.floor(Math.random() * 600) + 1,
+        left: Math.floor(Math.random() * 800) + 1,
         top: Math.floor(Math.random() * 600) + 1,
         width: 100,
         height: 100
@@ -509,15 +569,103 @@
             left: e.pageX,
             top: e.pageY
         });
-
+        
     if ($('.maxiking:hover').length != 0) {
-        $(".maxiking").css({
-        left: Math.floor(Math.random() * 800) + 100,
-        top: Math.floor(Math.random() * 800) + 100
-        });
-        counter +=1
-        $("#pipi").text("Zjedzone maxi king: " + counter)
+        if (canKillU){
+            $('#robol').remove()
+            gameStarted = false
+            $("#pipcia").text("O nie! Piziu, robol zjadł onion kinga i go zmiotło z planszy!")
+            $("#pipcia").css("padding-top", "18vh")
+            $("#pipcia").css("color", "red")
+            $("#pipcia").css("font-size", "6vw")
+            $("#glud").remove()
+            $(".maxiking").remove()
+        }
+
+        if(gameStarted){
+
+            nking_x = kingx
+            king_y = kingy
+
+            kingx = Math.floor(Math.random() * 800) + 100 + e.pageX*0.1 + (nking_x-kingx)*0.3
+            kingy = Math.floor(Math.random() * 600) + e.pageY*0.1 + (nking_y-kingy)*0.3
+
+
+
+            $(".maxiking").css({
+            left: kingx,
+            top: kingy
+            });
+            counter +=1
+            $("#pipi").text("Zjedzone maxi king: " + counter)
+
+            if(Math.floor(Math.random()*10) < 2){
+                glud+=2
+            }
+            else{
+                glud+=1
+            }
+            if(glud > 6){
+                glud = 6
+            }
+            if(glud >= 5){
+                $("#glud").text("(Robol jest pojedzony!) 🟢🟢🟢🟢🟢")
+            }
+            if(glud == 4){
+                $("#glud").text("(Robol jest pojedzony) 🟢🟢🟢🟢")
+            }
+            if(glud == 3){
+                $("#glud").text("(Robol głodnieje!) 🟡🟡🟡")
+                }
+            if(glud == 2){
+                $("#glud").text("(Robol chce kinga) 🟡🟡")
+            }
+            if(glud == 1){
+                $("#glud").text("(Robol jest bardzo głodny!!!) 🟠")
+            }
+            if(glud == -1){
+                $('#robol').remove()
+                gameStarted = false
+                $("#pipcia").text("O nie! Piziu, robol mega zgłodniał i go zmiotło z planszy!")
+                $("#pipcia").css("padding-top", "18vh")
+                $("#pipcia").css("color", "red")
+                $("#pipcia").css("font-size", "6vw")
+                $("#glud").remove()
+                $(".maxiking").remove()
+            }
+
+            kingx = nking_x
+            kingy = nking_y
+
+            var onionChance = Math.floor(Math.random() * 10)
+
+            if (onionChance < difficulty){
+                isOnionKing = true
+            }
+        
+        if(isOnionKing){
+            $(".maxiking").attr("src", "https://i.ibb.co/JrW7wwk/onion.jpg")
+            canKillU = true
+        }
+
+        
+    }
+
 }
+
+    $(window).click(function() {
+            if (isOnionKing){
+                    $(".maxiking").css({
+                    left: Math.floor(Math.random() * 800) + 100,
+                    top: Math.floor(Math.random() * 600)
+                    });
+                    $(".maxiking").attr("src", "https://i.iplsc.com/000AAZP110WLBPM3-C0.jpeg")
+                    isOnionKing = false
+                    canKillU = false
+            }
+});
+
+
 
 })
 
