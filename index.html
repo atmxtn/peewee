@@ -45,7 +45,8 @@
         background-size: 400% 400%;
         animation: gradient 15s ease infinite;
         height: 100vh;
-        cursor: none;
+        cursor: auto;
+        
     }
 
     @keyframes gradient {
@@ -627,6 +628,7 @@
         if (collided) {
             if (canKillU) {
                 $('#robol').remove()
+                $("body").css("cursor", "auto")
                 gameStarted = false
                 $("#pipcia").text("O nie! Piziu, robol zjadł onion kinga i go zmiotło z planszy!")
                 $("#pipcia").css("padding-top", "18vh")
@@ -711,7 +713,7 @@
 
                 if (onionChance < difficulty) {
                     isOnionKing = true
-                    $(".maxiking").attr("src", "https://i.ibb.co/JrW7wwk/onion.jpg")
+                    $(".maxiking").attr("src", "https://i.ibb.co/P9rfGR6/onionking.png")
                     isOnionKing = true
                     canKillU = true
                 }
@@ -744,7 +746,7 @@
         $(".cizia").css("width", 0)
         $(".cizia").css("height", 0)
         $(".cizia").after('<div id="robol"><img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/bug_1f41b.png"/></div>')
-        $(".cizia").after('<img class="maxiking" src="https://i.iplsc.com/000AAZP110WLBPM3-C0.jpeg"/>')
+        $(".cizia").after('<img class="maxiking" src="https://i.ibb.co/N20zRY1/maxiking.png"/>')
         $(".cizia").after('<h1 id="pipcia" style="color: #66ffff70; padding-top: 8px">(uważaj na onion kinga bo cb zmiecie z planszy!!!)</h1>')
         $("#pipcia").after('<h1 id="pipi" class="fnt" padding-top: 10px">Zjedzone maxi king: 0</h1>')
         $("#pipi").after('<p class="fnt" id="glud"></p>')
@@ -785,6 +787,7 @@
             width: 100,
             height: 100
         });
+        $("body").css("cursor", "none")
         gameStarted = true
 
 
@@ -807,7 +810,7 @@
                     left: MaxikingX,
                     top: MaxikingY
                 });
-                $(".maxiking").attr("src", "https://i.iplsc.com/000AAZP110WLBPM3-C0.jpeg")
+                $(".maxiking").attr("src", "https://i.ibb.co/N20zRY1/maxiking.png")
                 isOnionKing = false
                 canKillU = false
             }
