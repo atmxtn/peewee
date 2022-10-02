@@ -4,6 +4,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="robol_bday.css">
+    <link rel="stylesheet" href="night_sky.css">
     <iframe src="silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -44,6 +45,7 @@
     var RobolY = 0
     var MaxikingX = Math.floor(Math.random() * 800) + 100
     var MaxikingY = Math.floor(Math.random() * 600)
+    $('body').addClass("gradient")
 
     var x = setInterval(function () {
 
@@ -77,9 +79,9 @@
             $("#hepi-berzdej-timer").text("HEPI BERZDEJ STARA PIZIU!!!");
             $("#hepi-berzdej-timer").css('font-size', "10vh");
             $("#hepi-berzdej-timer").after("<p class='fnt' id='lol' style='font-size: 4vh'>(najslodsa i najpiekniejsza piziu, spełnienia wszyskiego. plynnego francais i mialnego life )</p>")
-            $("#lol").after('<iframe class="cizia" width="100%" height="100" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/942868204&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/moond4wg" title="" target="_blank" style="color: #cccccc; text-decoration: none;"></a> · <a href="https://soundcloud.com/moond4wg/caramelldansen-moond4wg-frenchcore-bootleg" title="" target="_blank" style="color: #cccccc; text-decoration: none;" id="sex">CARAMELLDANSEN | MOOND4WG FRENCHCORE BOOTLEG</a></div>')
-            $('#lol').after("<p class='fnt' style='font-size: 2vh;'>(jebany autoplay nie dzialal na chromie a pewnie z tg korzystasz)</p>")
-            $('#sex').after('<div style="padding-top: 10px"><button id="start-button" style="color: red; background-color:#ffffff42; width: 20vw; height:8vh; font-size: 20px;  font-family: "Monsterrat", sans-serif; " onClick="gameInit()">Start the MaxiKing game</button></div>')
+            $("#lol").after('<iframe class="cizia" width="100%" height="100" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/942868204&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true"></iframe>')
+            $('.cizia').after("<p id='sex' class='fnt' style='font-size: 2vh;'>(jebany autoplay nie dzialal na chromie a pewnie z tg korzystasz)</p>")
+            $('#sex').after('<div id="start-button" style="margin-top: 10px"><button id="start-button" style="color: red; background-color:#ffffff42; width: 20vw; height:8vh; font-size: 20px;  font-family: "Monsterrat", sans-serif; " onClick="gameInit()">Start the MaxiKing game</button></div>')
             $("#start-button").after("<button onClick='disableConfetti()'>disable confetti</button>")
 
 
@@ -116,7 +118,7 @@
             gameStarted = false
             $("#pipcia").text("O nie! Piziu, robol mega zgłodniał i go zmiotło z planszy!")
             $("#pipcia").addClass("fnt")
-            $("#pipcia").css("padding-top", "18vh")
+            $("#pipcia").css("margin-top", "18vh")
             $("#pipcia").css("color", "red")
             $("#pipcia").css("font-size", "6vw")
             $("#glud").remove()
@@ -203,7 +205,7 @@
                 $("body").css("cursor", "auto")
                 gameStarted = false
                 $("#pipcia").text("O nie! Piziu, robol zjadł onion kinga i go zmiotło z planszy!")
-                $("#pipcia").css("padding-top", "18vh")
+                $("#pipcia").css("margin-top", "18vh")
                 $("#pipcia").css("color", "red")
                 $("#pipcia").css("font-size", "6vw")
                 $("#glud").remove()
@@ -245,7 +247,7 @@
 
                 if (onionChance < difficulty) {
                     isOnionKing = true
-                    $(".maxiking").attr("src", "https://i.ibb.co/P9rfGR6/onionking.png")
+                    $(".maxiking").attr("src", "./assets/onionking.png")
                     isOnionKing = true
                     canKillU = true
                 }
@@ -272,16 +274,23 @@
         $("hepi-berzdej-timer").remove()
         $("#lol").remove()
         $(".fnt").remove()
+        $("#start-button").remove()
         $("button").remove()
-        // $("body").css('animation" "gradient" "2s" "ease" "infinite;"')
+        disableConfetti()
+        
         dtval = 8.0
         $(".cizia").css("width", 0)
         $(".cizia").css("height", 0)
-        $(".cizia").after('<div id="robol"><img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/bug_1f41b.png"/></div>')
-        $(".cizia").after('<img class="maxiking" src="https://i.ibb.co/N20zRY1/maxiking.png"/>')
-        $(".cizia").after('<h1 id="pipcia" style="color: #66ffff70; padding-top: 8px">(uważaj na onion kinga bo cb zmiecie z planszy!!!)</h1>')
-        $("#pipcia").after('<h1 id="pipi" class="fnt" padding-top: 10px">Zjedzone maxi king: 0</h1>')
-        $("#pipi").after('<p class="fnt" id="glud"></p>')
+        $(".cizia").css("display", "none")
+        $("body").before('<div class="stars"></div><div class="twinkling"></div>')
+        $('body').removeClass('gradient')
+        $("body").prepend('<div class="backdrop"></div>')
+        //<div id="foglayer_01" class="fog"><div class="image01"></div><div class="image02"></div></div><div id="foglayer_02" class="fog"><div class="image01"></div><div class="image02"></div></div><div id="foglayer_03" class="fog"><div class="image01"></div><div class="image02"></div></div>
+        $(".backdrop").prepend('<div id="robol"><img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/bug_1f41b.png"/></div>')
+        $(".backdrop").prepend('<img class="maxiking" src="./assets/maxiking.png"/>')
+        $(".backdrop").prepend('<h1 id="pipcia" style="color: #66ffff70; margin-top: 8px">(uważaj na onion kinga bo cb zmiecie z planszy!!!)</h1>')
+        $(".backdrop").prepend('<h1 id="pipi" class="fnt" margin-top: 10px">Zjedzone maxi king: 0</h1>')
+        $(".backdrop").prepend('<p class="fnt" id="glud"></p>')
 
 
 
@@ -289,6 +298,7 @@
         setInterval(function () {
             FPScounter += 1
             //Make something happen practically instantly
+            
             updateRobolPos(MouseX, MouseY);
 
             //Make something happen every second
@@ -310,7 +320,7 @@
                 }
 
             }
-        }, 16, 666666667);
+        }, 16.666666667);
 
 
         $(".maxiking").css({
@@ -342,7 +352,7 @@
                     left: MaxikingX,
                     top: MaxikingY
                 });
-                $(".maxiking").attr("src", "https://i.ibb.co/N20zRY1/maxiking.png")
+                $(".maxiking").attr("src", "./assets/maxiking.png")
                 isOnionKing = false
                 canKillU = false
             }

@@ -1,3 +1,6 @@
+
+
+
 .fnt {
     color: white;
     font-family: 'Monsterrat', sans-serif;
@@ -15,12 +18,35 @@
 
 body {
     font-family: 'Monsterrat', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    cursor: auto;
+    margin: 0px;
+    padding: 0px;
+    
+}
+
+.gradient{
     background: linear-gradient(-45deg, #d768d2, #b43ce7, #00bbff, #23d5ab);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
-    height: 100vh;
-    cursor: auto;
-    
+}
+
+.backdrop{
+    display:block;
+    background-repeat: no-repeat;
+    background: url("./assets/ground.png");
+    width:100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+
+}
+
+.cizia{
+    padding: 0px;
+    margin: 0px;
 }
 
 @keyframes gradient {
@@ -58,7 +84,7 @@ body {
 #hepi-berzdej-timer {
     margin: 0px;
     font-size: 11vw;
-    padding-top: 35vh;
+    margin-top: 35vh;
 }
 
 #game {
