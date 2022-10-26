@@ -3,7 +3,11 @@
 
 .fnt {
     color: white;
-    font-family: 'Monsterrat', sans-serif;
+    font-family: 'Creepster', sans-serif;
+}
+
+#pipcia{
+    font-family: "Creepster", sans-serif;
 }
 
 .flipped {
@@ -77,8 +81,9 @@ body {
 /*game stuff*/
 
 #glud {
-    font-size: 3vw;
-
+    font-size: 16px;
+    position: absolute;
+    text-align:justify;
 }
 
 #hepi-berzdej-timer {
@@ -98,6 +103,13 @@ body {
     text-align: center;
     width: 100px;
     height: 100px;
+}
+
+#robol-bar{
+    position: absolute;
+    width: 110px;
+    height: 2px;
+    
 }
 
 .maxiking {
