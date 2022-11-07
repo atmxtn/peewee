@@ -1,36 +1,36 @@
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="./confetti.js"></script>
-    <script src="./birthday_clock.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="robol_bday.css">
-    <link rel="stylesheet" href="night_sky.css">
-    <iframe src="silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="./confetti.js"></script>
+        <script src="./birthday_clock.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="robol_bday.css">
+        <link rel="stylesheet" href="night_sky.css">
+        <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-</head>
+    </head>
 
-<body class="gradient">
+    <body class="gradient">
 
-    <div id="confetti">
-    </div>
-    <center>
-        <p class="fnt" id="hepi-berzdej-timer"></p>
-        <p class="fnt" id="robolenie">(robolenie 🎂 in progress)</p>
-    </center>
+        <div id="confetti">
+        </div>
+        <center>
+            <p class="fnt" id="hepi-berzdej-timer"></p>
+            <p class="fnt" id="robolenie">(robolenie 🎂 in progress)</p>
+        </center>
 
 
 
-</body>
-
+    </body>
+</html>
 
 <script>
 
    let countDownDate = new Date("September 25, 2022 22:14:00").getTime();
    let now = new Date().getTime();
    
-   //game variables
+   //game letiables
    let PI = Math.PI
    let fps = 60
    let fpsCount = 60
@@ -43,22 +43,98 @@
    let difficultyCounter = 0
    let gameStarted = false
    let robolHitboxSize = 93
+    let starsIterator = 0;
 
     //Object positons
    let mouseX = 0
    let mouseY = 0
    let robolX = 0
    let robolY = 0
-   let robolBobbing = 0
+   let wormholeX = 0
+   let wormholeY = 0
+   let wormholeWidth = 380;
+   let wormholeHeight = 260;
+   let bobbing = 0
    let maxikingX = Math.floor(Math.random() * 800) + 100
    let maxikingY = Math.floor(Math.random() * 600)
-
-
+   
+   //ghost swarm letiables
+   let waitForSwarm = true
+   let swarmFpsCount = 0
+   let inHole = false
+   let swarmStarted = false
+   let momentsBeforeSwarmCounter = 0
+   let maxikingFloating  = false
+   //let timeBeforeSwarm = Math.floor(Math.random()) * (7200 - 2700) + 2700
+   let timeBeforeSwarm = 400
     birthday_clock()
 
+    function generateStars(){
+        let $galaxy = $(".galaxy");
+        if (starsIterator <= 200){
+            let xposition = Math.random();
+            let yposition = Math.random();
+            let star_type = Math.floor((Math.random() * 3) + 1);
+            let position = {
+                "x" : $galaxy.width() * xposition,
+                "y" : $galaxy.height() * yposition,
+            };
+            
+            $('<div class="star star-type' + star_type + '"></div>').appendTo($galaxy).css({
+                "top" : position.y,
+                "left" : position.x
+            });
+            
+            starsIterator++;
+        }
+        
+}
 
     function disableConfetti(){
         $("#confetti").remove()
+    }
+
+    function spawnGameElements(){
+        $("hepi-berzdej-timer").remove()
+        $("#lol").remove()
+        $(".fnt").remove()
+        $("#start-button").remove()
+        $("button").remove()
+        disableConfetti()
+        dtval = 8.0
+        $(".cizia").css("width", 0)
+        $(".cizia").css("height", 0)
+        $(".cizia").css("display", "none")
+        $("body").prepend('<div class="galaxy"></div>')
+        $('body').removeClass('gradient')
+        $("body").prepend('<div class="backdrop"></div>')
+        //<div id="foglayer_01" class="fog"><div class="image01"></div><div class="image02"></div></div><div id="foglayer_02" class="fog"><div class="image01"></div><div class="image02"></div></div><div id="foglayer_03" class="fog"><div class="image01"></div><div class="image02"></div></div>
+        $(".backdrop").prepend('<meter id="robol-bar" low="2" high="5" optimum="3" value="5" max="5" min="-1"></meter><div id="robol"><img src="./assets/halloween-robol.png"/></div>')
+        $('.backdrop').prepend("<audio loop id='wind-player' src='./audio_files/bg_wind.mp3'/>")
+        $('.backdrop').prepend("<audio loop id='swarm-player1' src='./audio_files/swarm_phase1.mp3'/>")
+        $('.backdrop').prepend("<audio loop id='swarm-player2' src='./audio_files/swarm_phase2.mp3'/>")
+        $('.backdrop').prepend("<audio loop id='swarm-player3' src='./audio_files/swarm_phase3.mp3'/>")
+        $('.backdrop').prepend("<audio id='death-player' src='./audio_files/death_sound.mp3'/>")
+
+        $(".backdrop").prepend('<img class="maxiking" src=""/>')
+        
+        $(".backdrop").prepend('<h1 id="pipcia" style="color: #66ffff70; padding-top: 8px;">(nie jedz onion kinga bo cb zmiecie z planszy!!!)</h1>')
+        $(".backdrop").prepend('<h1 id="pipi" class="fnt" style="padging-top: 10px;">Zjedzone maxi king: 0</h1>')
+        $(".backdrop").prepend('<p class="fnt" id="glud"></p>')
+
+        //instantiate game elemetns
+        $(".maxiking").addClass("game-element")
+        $("#robol-bar").addClass("game-element")
+        $(".robol").addClass("game-element")
+        $("#glud").addClass("game-element")
+        $("#glud").text("pojedzon")
+        $(".maxiking").css({
+            left: maxikingX,
+            top: maxikingY,
+            width: 100,
+            height: 100
+        });
+        $("body").css("cursor", "none")
     }
 
     function killGame(deathBy){
@@ -68,14 +144,24 @@
         $("#pipcia").css("color", "red")
         $("#pipcia").css("font-size", "5vw")
         $("body").css("cursor", "auto")
+        $("#swarm-player1")[0].pause()
+        $("#swarm-player2")[0].pause()
+        $("#swarm-player3")[0].pause()
         $(".game-element").remove()
+        $("#death-player")[0].play()
         if (deathBy == "HUNGER")
-            $("#pipcia").text("O nie! Piziu, robol mega zgłodniał i go zmiotło z planszy!");
+            $("#pipcia").text("O nie! Piziu, robol mega zgłodnial i go zmiotlo z planszy!");
         
 
         if(deathBy == "ONION_KING")
-            $("#pipcia").text("O nie! Piziu, robol zjadł onion kinga i go zmiotło z planszy!");
+            $("#pipcia").text("O nie! Piziu, robol zjadl onion kinga i go zmiotło z planszy!");
+            
         
+        if (deathBy == "GHOST_SWARM"){
+            $("#pipcia").text("O nie! Piziu, zabrali jego dusze.");
+            $("#robol").css("filter", "grayscale(100%)")
+            $("#robol").css("z-index", "4")
+        }
         
     }
 
@@ -174,12 +260,11 @@
 
     }
 
-    function updateRobolBobbing(){
-        robolBobbing += 0.02*PI
-        if(robolBobbing > 4*PI) 
-            robolBobbing = 0;
-        console.log(robolBobbing)
-        return Math.sin(robolBobbing)*5
+    function updateBobbing(){
+        bobbing += 0.02*PI
+        if(bobbing > 4*PI) 
+            bobbing = 0;
+        return Math.sin(bobbing)*5
     }
 
     function checkRobolMaxikingCollision() {
@@ -198,7 +283,7 @@
             if (canKillU) 
                 killGame(deathBy = "ONION_KING");
         
-            respawnMaxiKing(robolX, robolY)
+            respawnMaxiKing(mouseX, mouseY)
 
             eatenMaxikingCount += 1
             $("#pipi").text("Zjedzone maxi king: " + eatenMaxikingCount)
@@ -212,49 +297,39 @@
             collided = false
         }
 
-    function spawnGameElements(){
-        $("hepi-berzdej-timer").remove()
-        $("#lol").remove()
-        $(".fnt").remove()
-        $("#start-button").remove()
-        $("button").remove()
-        disableConfetti()
-        dtval = 8.0
-        $(".cizia").css("width", 0)
-        $(".cizia").css("height", 0)
-        $(".cizia").css("display", "none")
-
-        $("body").before('<div class="stars"></div><div class="twinkling"></div>')
-        $('body').removeClass('gradient')
-        $("body").prepend('<div class="backdrop"></div>')
-        //<div id="foglayer_01" class="fog"><div class="image01"></div><div class="image02"></div></div><div id="foglayer_02" class="fog"><div class="image01"></div><div class="image02"></div></div><div id="foglayer_03" class="fog"><div class="image01"></div><div class="image02"></div></div>
-        $(".backdrop").prepend('<meter id="robol-bar" low="2" high="5" optimum="3" value="5" max="5" min="-1"></meter><div id="robol"><img src="./assets/halloween-robol.png"/></div>')
-        
-
-        $(".backdrop").prepend('<img class="maxiking" src="./assets/maxiking.png"/>')
-        
-        $(".backdrop").prepend('<h1 id="pipcia" style="color: #66ffff70; margin-top: 8px;">(nie jedz onion kinga bo cb zmiecie z planszy!!!)</h1>')
-        $(".backdrop").prepend('<h1 id="pipi" class="fnt" margin-top: 10px">Zjedzone maxi king: 0</h1>')
-        $(".backdrop").prepend('<p class="fnt" id="glud"></p>')
-
-        //instantiate game elemetns
-        $(".maxiking").addClass("game-element")
-        $("#robol-bar").addClass("game-element")
-        $(".robol").addClass("game-element")
-        $("#glud").addClass("game-element")
-        $("#glud").text("pojedzon")
-        $(".maxiking").css({
-            left: maxikingX,
-            top: maxikingY,
-            width: 100,
-            height: 100
-        });
-        $("body").css("cursor", "none")
-    }
-
     function respawnMaxiKing(playerX, playerY){
-        maxikingX = Math.floor(Math.random() * 800)
-        maxikingY = Math.floor(Math.random() * 600)
+        let maxikingTempX = Math.floor(Math.random() * 1200)
+        let maxikingTempY = Math.floor(Math.random() * 600)
+
+        if(Math.abs(playerX - maxikingTempX) < 200){
+            if(playerX < 700)
+                maxikingTempX+=300
+            if(playerX > 700)
+                maxikingTempX-=300
+            if(maxikingTempX < 0)
+                maxikingTempX = 1200
+            if(maxikingTempX > 1200)
+                maxikingTempX = 100
+        }
+
+        if(Math.abs(playerY - maxikingTempX) < 200){
+            if(playerY < 300)
+                maxikingTempX+=200
+            if(playerY > 300)
+                maxikingTempY-=200
+            if(maxikingTempY < 0)
+                maxikingTempY = 600
+            if(maxikingTempY > 600)
+                maxikingTempY = 20
+        }
+        
+        maxikingX = maxikingTempX
+        maxikingY = maxikingTempY
+
+        if(maxikingY < 500)
+            maxikingFloating = true
+        else
+            maxikingFloating = false
 
         let onionChance = Math.floor(Math.random() * 10)
 
@@ -262,11 +337,15 @@
             isOnionKing = true
             canKillU = true
             $(".maxiking").attr("src", "./assets/onionking.png")
+            if(maxikingFloating)
+                $(".maxiking").attr("src", "./assets/onionking_floating.png")
                     
         } else {
             isOnionKing = false
             canKillU = false
             $(".maxiking").attr("src", "./assets/maxiking.png")
+            if(maxikingFloating)
+                $(".maxiking").attr("src", "./assets/maxiking_floating.png")
         }
 
         $(".maxiking").css({
@@ -275,11 +354,64 @@
         });
     }
     
+    function spawnWormhole(playerX, playerY){
+            wormholeX = Math.floor(Math.random()* (1200 - 200 ) + 200)  
+            wormholeY = Math.floor(Math.random()* (600 - 500) + 500) 
+            
+            $(".backdrop").prepend("<img class='wormhole' src='./assets/digging.gif'/>")
+            $(".wormhole").css({
+                top: wormholeY,
+                left: wormholeX
+            })
+    }
+
+    function checkWormholeCollision(){
+        if  (Math.abs(mouseX-(wormholeX/2) - wormholeX) < 150 && Math.abs(mouseY-(wormholeY/2) - wormholeY) < 200)
+            inHole = true
+        else 
+            inHole = false;
+
+    }
+
+    function beginSwarm(){
+        swarmStarted = true
+        
+        if (momentsBeforeSwarmCounter == 0)
+            spawnWormhole()
+        momentsBeforeSwarmCounter+=1
+
+        if(momentsBeforeSwarmCounter > 180){
+            $(".wormhole").attr("src", "./assets/wormhole.gif")
+
+            checkWormholeCollision()
+        }
+
+        if(momentsBeforeSwarmCounter > 360){
+            $("#swarm-player2")[0].pause()
+            $("#swarm-player3")[0].play()
+            if (!inHole && swarmStarted)
+                killGame(deathBy = "GHOST_SWARM")
+            
+        } 
+        
+        if (momentsBeforeSwarmCounter > 480){
+            $(".wormhole").remove()
+            inHole = false
+            swarmStarted = false
+            momentsBeforeSwarmCounter = 0
+            swarmFpsCount = 0
+            $("#swarm-player3")[0].pause()
+            timeBeforeSwarm = Math.floor(Math.random()) * (7200 - 2700) + 2700
+            $("#robol").css("display", "block")
+        }
+    }
 
     function gameInit() {
         
         //Happens once before game starts
         spawnGameElements()
+        respawnMaxiKing(mouseX, mouseY)
+        $("#wind-player")[0].play()
         gameStarted = true
 
         $(document).ready(function (e) {
@@ -290,19 +422,46 @@
         robolX = mouseX
         robolY = mouseY
 
-        
         //GAME LOOP
         setInterval(function () {
-            
+            generateStars();
             //Make something happen practically instantly
             if (gameStarted){
-            
-                glud -= 0.01
+                
+                if (swarmStarted){
+                    if(!inHole){
+                        glud -= 0.02
+                        $("#robol").css("display", "block")
+                    }
+                    else
+                        $("#robol").css("display", "none");
+
+                    
+                }
+                if(swarmStarted == false)
+                    glud -= 0.01
+
                 fpsCount += 1
-                updateRobolPos(mouseX, mouseY+updateRobolBobbing());
+                swarmFpsCount +=1
+                console.log(swarmFpsCount)
+                
+                updateRobolPos(mouseX, mouseY+updateBobbing());
+                if(maxikingFloating){
+                    $(".maxiking").css("top", maxikingY+updateBobbing())
+                }
+
                 checkRobolMaxikingCollision()
                 updateHungerBar()
-                
+
+                if(swarmFpsCount == Math.abs(timeBeforeSwarm*0.75)){
+                    $("#swarm-player1")[0].play()
+                }
+                    
+                if (swarmFpsCount > timeBeforeSwarm){
+                    $("#swarm-player1")[0].pause()
+                    $("#swarm-player2")[0].play()
+                    beginSwarm()
+                }
 
                 //Make something happen every second
                 if (fpsCount > fps) {
@@ -327,7 +486,7 @@
     //handle game click events
     $(window).click(function () {
             if (isOnionKing) 
-                respawnMaxiKing(robolX, robolY)
+                respawnMaxiKing(mouseX, mouseY)
     })
 
 

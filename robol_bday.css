@@ -19,10 +19,13 @@
     -ms-transform: scale(-1, 1);
 }
 
+html{
+    height: 100%
+}
 
 body {
     font-family: 'Monsterrat', sans-serif;
-    height: 100%;
+    height: 100vh;
     width: 100%;
     overflow: hidden;
     cursor: auto;
@@ -41,11 +44,25 @@ body {
     display:block;
     background-repeat: no-repeat;
     background: url("./assets/ground.png");
-    width:100%;
-    height: 100%;
+    background-size: cover;
+    image-rendering: pixelated;
+    background-position: 0px, 0px, 0px, 0px;
     margin: 0px;
     padding: 0px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
 
+.wormhole{
+    position: absolute;
+    image-rendering: pixelated;
+    top: 0px;
+    bottom: 0px;
+    width: 380px;
+    height: 260px;
 }
 
 .cizia{
@@ -101,6 +118,7 @@ body {
 #robol {
     position: absolute;
     text-align: center;
+    image-rendering: pixelated;
     width: 100px;
     height: 100px;
 }
@@ -115,6 +133,8 @@ body {
 .maxiking {
     position: absolute;
     text-align: center;
+    image-rendering: pixelated;
+    background-size: cover;
     width: 140px;
     height: 140px;
 }
