@@ -69,6 +69,39 @@
    let timeBeforeSwarm = 400
     birthday_clock()
 
+    class GameObject{
+        constructor(width=0, height=0, xyPosition=0, hitboxSize=0, texture="", audioFiles={}, HTML_elementType="div"){
+            this.width = width
+            this.height = height
+            this.xyPosition = xyPosition
+            this.hitboxSize = hitboxSize
+            this.texture = texture
+            this.audioFiles = audioFiles
+            this.ID = ID
+            this.DOM_element = document.createElement(HTML_elementType)
+            document.getElementByClassName("backdrop").appendChild(this.DOM_element)
+            this.DOM_textureElement = document.createElement("img")
+            
+            if(texture.length == 0)
+                this.DOM_element.appendChild(this.DOM_textureElement);
+
+            
+
+        }
+
+        set position(xyPosition){
+            this.xyPosition = xyPosition
+            this.DOM_element.style.left = xyPosition[0]
+            this.DOM_element.style.top = xyPosition[1]
+        }
+
+        set texture(texture){
+            this.texture = texture;
+            this.DOM_element.style.
+        }
+
+    }
+
     function generateStars(){
         let $galaxy = $(".galaxy");
         if (starsIterator <= 200){
